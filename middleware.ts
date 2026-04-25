@@ -29,20 +29,25 @@ export async function middleware(request: NextRequest) {
 
   // Refresh session if expired - required for Server Components
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    data: { session },
+  } = await supabase.auth.getSession()
 
+  const user = session?.user
   const isLaporRoute = request.nextUrl.pathname.startsWith('/lapor')
+  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
   
   // Jika user mencoba mengakses /lapor tapi belum login
   if (isLaporRoute && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
+    url.searchParams.set('next', '/lapor') // Simpan tujuan asal
     return NextResponse.redirect(url)
   }
 
-  // Jika user sudah login, dia tetap bisa mengakses /lapor
-  // Dan semua user (termasuk yang tidak login) bisa mengakses /lacak dan halaman lain
+  // Cek verifikasi email jika user ingin benar-benar aman (opsional)
+  // if (user && !user.email_confirmed_at && isLaporRoute) {
+  //   // Kamu bisa redirect ke halaman "Please Verify Email" di sini
+  // }
   
   return supabaseResponse
 }
