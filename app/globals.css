@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  /* Slate 50: Putih yang ada 'isi'-nya */
+  --foreground: #0f172a;
+  /* Slate 900: Teks tegas */
+
+  --color-itg-blue: #003366;
+  --color-itg-azure: #0ea5e9;
+
+  --card: #ffffff;
+  --border: #e2e8f0;
+
+  /* Font Variable (Pastikan ini sesuai dengan layout.tsx) */
+  --font-montserrat: var(--font-montserrat);
+  --font-inter: var(--font-inter);
+}
+
+.dark {
+  --background: #020617;
+  --foreground: #f8fafc;
+  --color-itg-azure: #38bdf8;
+  --card: #0f172a;
+  --border: #1e293b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-itg-blue: var(--color-itg-blue);
+  --color-itg-azure: var(--color-itg-azure);
+  --color-border: var(--border);
+  --color-card: var(--card);
+}
+
+@variant dark (&:where(.dark, .dark *));
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  /* Ini kunci biar teks gak ilang */
+  font-family: var(--font-inter), ui-sans-serif, system-ui;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Biar input dapet efek glass/modern */
+input,
+textarea,
+select {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+select option {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--color-itg-azure);
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+  outline: none;
+}
