@@ -6,7 +6,7 @@ const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata = {
-  title: 'Satgas PPKPT - Lindungi Kampus Kita',
+  title: 'SIAP-PPKPT - Lindungi Kampus Kita',
   description: 'Layanan Pencegahan dan Penanganan Kekerasan di Perguruan Tinggi',
   icons: {
     icon: '/OIP.jpeg',
