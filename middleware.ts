@@ -56,10 +56,10 @@ export async function middleware(request: NextRequest) {
 
     const role = profile?.role
 
-    // Jika role adalah admin, batasi akses hanya ke /admin dan /
+    // Jika role adalah admin, batasi akses hanya ke /admin, /, dan /profile
     if (role === 'admin') {
-      // Jika mencoba mengakses rute selain /admin dan / (termasuk /lapor, /login dll)
-      if (!isAdminRoute && pathname !== '/') {
+      // Jika mencoba mengakses rute selain /admin, /, dan /profile
+      if (!isAdminRoute && pathname !== '/' && !pathname.startsWith('/profile')) {
         const url = request.nextUrl.clone()
         url.pathname = '/admin'
         return NextResponse.redirect(url)
