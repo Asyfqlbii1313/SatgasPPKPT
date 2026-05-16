@@ -33,8 +33,9 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getSession()
 
   const user = session?.user
-  const isLaporRoute = request.nextUrl.pathname.startsWith('/lapor')
-  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
+  const pathname = request.nextUrl.pathname
+  const isLaporRoute = pathname.startsWith('/lapor')
+  const isAdminRoute = pathname.startsWith('/admin')
   
   // Jika user mencoba mengakses /lapor tapi belum login
   if (isLaporRoute && !user) {
@@ -44,10 +45,34 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Cek verifikasi email jika user ingin benar-benar aman (opsional)
-  // if (user && !user.email_confirmed_at && isLaporRoute) {
-  //   // Kamu bisa redirect ke halaman "Please Verify Email" di sini
-  // }
+  // Handle Role-Based Access Control
+  if (user) {
+    // Ambil profile user untuk mengecek role
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    const role = profile?.role
+
+    // Jika role adalah admin, batasi akses hanya ke /admin dan /
+    if (role === 'admin') {
+      // Jika mencoba mengakses rute selain /admin dan / (termasuk /lapor, /login dll)
+      if (!isAdminRoute && pathname !== '/') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/admin'
+        return NextResponse.redirect(url)
+      }
+    } else {
+      // Jika BUKAN admin, tapi mencoba mengakses rute /admin, kembalikan ke beranda
+      if (isAdminRoute) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/'
+        return NextResponse.redirect(url)
+      }
+    }
+  }
   
   return supabaseResponse
 }

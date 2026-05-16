@@ -18,19 +18,19 @@ const Header = () => {
 
     useEffect(() => {
         const supabase = createClient();
-        
+
         // Cek user saat ini dan rolenya
         const checkUser = async () => {
             const { data: { user } } = await supabase.auth.getUser();
             setUser(user);
-            
+
             if (user) {
                 const { data: profile } = await supabase
                     .from('profiles')
                     .select('role, full_name')
                     .eq('id', user.id)
                     .single();
-                
+
                 setIsAdmin(profile?.role === 'admin');
                 setUserName(profile?.full_name || user.email?.split('@')[0] || 'User');
             } else {
@@ -38,7 +38,7 @@ const Header = () => {
                 setUserName('');
             }
         };
-        
+
         checkUser();
 
         // Listen pada perubahan state otentikasi
@@ -60,15 +60,15 @@ const Header = () => {
                 {/* Logo ITG Garut */}
                 <Link href="/" className="flex items-center gap-4 group">
                     <div className="relative w-12 h-12 bg-white dark:bg-white/10 p-1.5 rounded-full shadow-xl shadow-itg-blue/10 dark:shadow-none border border-itg-blue/5 dark:border-white/10 overflow-hidden group-hover:scale-110 transition-all duration-300">
-                        <Image 
-                            src="/OIP.jpeg" 
-                            alt="Logo ITG" 
+                        <Image
+                            src="/OIP.jpeg"
+                            alt="Logo ITG"
                             fill
                             className="object-contain p-1"
                         />
                     </div>
                     <div className="flex flex-col">
-                        <span className="font-montserrat font-black text-lg text-slate-950 dark:text-white tracking-tighter leading-none mb-0.5">SATGAS PPKPT</span>
+                        <span className="font-montserrat font-black text-lg text-slate-950 dark:text-white tracking-tighter leading-none mb-0.5">SIAP-PPKPT</span>
                         <span className="text-[9px] font-extrabold text-slate-600 dark:text-itg-azure uppercase tracking-[0.2em] leading-none">Institut Teknologi Garut</span>
                     </div>
                 </Link>
@@ -89,7 +89,7 @@ const Header = () => {
                 {/* Action Area */}
                 <div className="flex items-center gap-2 md:gap-4">
                     <ThemeToggle />
-                    
+
                     {/* User Area */}
                     <div className="hidden sm:flex items-center gap-3">
                         {user ? (
@@ -103,7 +103,7 @@ const Header = () => {
                                         <span className="material-symbols-outlined text-[18px]">admin_panel_settings</span> Dashboard
                                     </Link>
                                 )}
-                                <button 
+                                <button
                                     onClick={async () => {
                                         const supabase = createClient();
                                         await supabase.auth.signOut();
@@ -122,7 +122,7 @@ const Header = () => {
                     </div>
 
                     {/* Hamburger Menu (Mobile) */}
-                    <button 
+                    <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         className="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-card border border-border text-foreground hover:bg-background transition-all"
                     >
@@ -141,11 +141,10 @@ const Header = () => {
                                     key={item}
                                     href={item === 'Beranda' ? '/' : `/${item.toLowerCase()}`}
                                     onClick={() => setIsMenuOpen(false)}
-                                    className={`px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-all ${
-                                        isActive(item === 'Beranda' ? '/' : `/${item.toLowerCase()}`)
+                                    className={`px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between transition-all ${isActive(item === 'Beranda' ? '/' : `/${item.toLowerCase()}`)
                                             ? 'bg-itg-blue/5 text-itg-blue dark:bg-itg-azure/10 dark:text-itg-azure'
                                             : 'text-foreground/70 hover:bg-background'
-                                    }`}
+                                        }`}
                                 >
                                     {item}
                                     <span className="material-symbols-outlined text-sm">chevron_right</span>
@@ -174,7 +173,7 @@ const Header = () => {
                                                 <span className="material-symbols-outlined text-[16px]">admin_panel_settings</span> Admin
                                             </Link>
                                         )}
-                                        <button 
+                                        <button
                                             onClick={async () => {
                                                 const supabase = createClient();
                                                 await supabase.auth.signOut();

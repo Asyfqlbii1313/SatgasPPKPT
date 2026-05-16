@@ -14,7 +14,7 @@ const Footer = () => {
                             <div className="relative w-8 h-8 bg-white p-1 rounded-lg">
                                 <Image src="/OIP.jpeg" alt="Logo ITG" fill className="object-contain p-0.5" />
                             </div>
-                            <span className="font-montserrat font-bold text-xl text-slate-900 dark:text-white">Satgas PPKPT ITG</span>
+                            <span className="font-montserrat font-bold text-xl text-slate-900 dark:text-white">SIAP-PPKPT ITG</span>
                         </div>
                         <p className="text-slate-600 dark:text-slate-400 max-w-sm text-sm leading-relaxed">
                             Komitmen Institut Teknologi Garut dalam menciptakan lingkungan kampus yang inklusif, aman, dan bebas dari segala bentuk kekerasan.
